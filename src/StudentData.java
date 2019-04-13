@@ -1,26 +1,33 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Date;
+import java.util.Locale;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 public class StudentData {
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException, ParseException{
 	
-	
+	/* Calling Method to load control menu*/
 		 ProgramControl() ;
 
 	}
 	
-	// Function to control menu
+	/*  Method to load control menu*/
 	
-	public static void ProgramControl() throws IOException {
+	public static void ProgramControl() throws IOException, ParseException {
 		int menu;
 		menu = MenuDisplay();
 		if(menu == 1) {
+	/* Calling Method to write data to file*/		
 			WriteStudentData();
 		}else if(menu==2) {
+	/* Calling Method to read data from file*/			
 			ReadStudentData();
 		}
 		else if(menu==3) {
+	/* Calling Method to get sort menu*/			
 			SortStudentDataMenu();
 		}
 		else if(menu==4) {
@@ -28,6 +35,9 @@ public class StudentData {
 		}
 		else if(menu==5) {
 			EditStudentDataMenu();
+		}
+		else if(menu==6) {
+			System.out.println(" THANK YOU");
 		}
 	}
 	
@@ -51,7 +61,7 @@ public class StudentData {
 	}
 	
 	//  Function to write data to file
-	public static void WriteStudentData() throws IOException {
+	public static void WriteStudentData() throws IOException, ParseException {
 		
 		int noOfDatas;
 		String studentId;
@@ -88,7 +98,16 @@ public class StudentData {
 		    gpa = Double.parseDouble(input.readLine());
 		    System.out.println("Enter the student DOB (yyyy-mm-dd):");
 		    dob = input.readLine();
-		    outputFile.println(studentId+"_"+firstName+'_'+lastName+'_'+major+'_'+phone+'_'+gpa+'_'+dob);
+		    
+	/* Formatting date format using Date class */
+		    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd");
+		    Date date = oldFormat.parse(dob);
+		    SimpleDateFormat newFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+		    String formatDOB = newFormat.format(date);
+	
+	/* Writing data to file */
+		    
+		    outputFile.println(studentId+"_"+firstName+'_'+lastName+'_'+major+'_'+phone+'_'+gpa+'_'+formatDOB);
 
 	}
 		    outputFile.close(); 
@@ -100,7 +119,7 @@ public class StudentData {
 	
 	// Function to read data from file
 	
-	public static void ReadStudentData() throws IOException{
+	public static void ReadStudentData() throws IOException, ParseException{
 		
 		Scanner keyboard = new Scanner(System.in);
         File myFile = new File("D:\\CSAT-SEM2\\JAVA\\FinalProject\\studentData.txt");
@@ -126,7 +145,7 @@ public class StudentData {
 	
 	
 	// Function to print student data
-	public static void printStudentData(ArrayList<Student>studentList,int option)throws IOException
+	public static void printStudentData(ArrayList<Student>studentList,int option)throws IOException, ParseException
     {
 		// Print the list objects in tabular format.
 	    System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
@@ -150,7 +169,7 @@ public class StudentData {
 		
     }
 	
-	public static void SortStudentDataMenu() throws IOException{
+	public static void SortStudentDataMenu() throws IOException, ParseException{
 		Scanner keyboard = new Scanner(System.in);
 		int sortMenu;
 		System.out.println("PLEAE SELECT ONE OF THE OPTIONS");
@@ -302,7 +321,7 @@ public class StudentData {
 	  
 	
 	 
-	 public static void SearchStudentDataMenu() throws IOException{
+	 public static void SearchStudentDataMenu() throws IOException, ParseException{
 			Scanner keyboard = new Scanner(System.in);
 			int searchMenu;
 			System.out.println("PLEAE SELECT ONE OF THE OPTIONS");
@@ -353,7 +372,7 @@ public class StudentData {
 		}
 	 
 	 
-	 public static void SearchByStudentId(ArrayList<Student>stdList) throws IOException
+	 public static void SearchByStudentId(ArrayList<Student>stdList) throws IOException, ParseException
 	    {
 		 Scanner keyboard = new Scanner(System.in);   
 		 String  studentId;
@@ -392,7 +411,7 @@ public class StudentData {
 	    
 	 
 	 
-	 public static void SearchByLastName(ArrayList<Student>stdList) throws IOException
+	 public static void SearchByLastName(ArrayList<Student>stdList) throws IOException, ParseException
 	    {
 		 Scanner keyboard = new Scanner(System.in);   
 		 String  lName;
@@ -428,7 +447,7 @@ public class StudentData {
 	        }
 	        SearchStudentDataMenu();
 	        }
-	 public static void SearchByMajor(ArrayList<Student>stdList) throws IOException
+	 public static void SearchByMajor(ArrayList<Student>stdList) throws IOException, ParseException
 	    {
 		 Scanner keyboard = new Scanner(System.in);   
 		 String  mjr;
@@ -465,7 +484,7 @@ public class StudentData {
 	        }
 	        SearchStudentDataMenu();
 	        }
-	 public static void EditStudentDataMenu() throws IOException {
+	 public static void EditStudentDataMenu() throws IOException, ParseException {
 		 
 		 Scanner keyboard = new Scanner(System.in);   
 		 int saveOption;
@@ -536,9 +555,15 @@ public class StudentData {
   				
   				}
   				else if(saveOption == 6) {
-  					System.out.println("Enter Student  DOB:");
+  					System.out.println("Enter Student  DOB(yyyy-mm-dd):");
   					editedDOB = input.readLine();
-  					data[6] = editedDOB;
+  				    
+  					/* Formatting date format using Date class */
+  						    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd");
+  						    Date date = oldFormat.parse(editedDOB);
+  						    SimpleDateFormat newFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+  						    String formatedEditedDOB = newFormat.format(date);
+  					data[6] = formatedEditedDOB;
   				
   				}
   				else if (saveOption == 7) {

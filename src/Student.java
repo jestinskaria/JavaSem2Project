@@ -83,11 +83,12 @@ public class Student {
 	    }
 	    public String getDOB()
 	    {
+	    	
 	        return dob;
 	    }
 	    public void setDOB(String dob)
 	    {
-	       
+	    	
 	            this.dob = dob;
 	        
 	    }
