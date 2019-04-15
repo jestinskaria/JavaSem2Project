@@ -599,6 +599,9 @@ public class StudentData {
 				    
 				    ProgramControl();
 				
+			}else {
+				System.out.println("Sorry Student Id not found");
+				 ProgramControl();
 			}
 	 }
 }
